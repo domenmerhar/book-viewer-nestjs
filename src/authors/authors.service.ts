@@ -14,4 +14,8 @@ export class AuthorsService {
   updateAuthorName(name: string, id: string): Promise<Author> {
     return this.authorsRepository.updateAuthorName(name, id);
   }
+
+  deleteAuthor(id: string): Promise<void> {
+    return this.authorsRepository.deleteAuthor(id);
+  }
 }

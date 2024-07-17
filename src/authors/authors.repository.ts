@@ -33,5 +33,7 @@ export class AuthorsRepository extends Repository<Author> {
     return author;
   }
 
-  //async deleteAuthor(id: string): string;
+  async deleteAuthor(id: string): Promise<void> {
+    await this.delete({ id });
+  }
 }

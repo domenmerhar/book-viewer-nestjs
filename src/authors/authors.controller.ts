@@ -39,7 +39,7 @@ export class AuthorsController {
   }
 
   @Delete('/:id')
-  deleteAuthor(@Param('id') id: string): string {
-    return id;
+  deleteAuthor(@Param('id') id: string): Promise<void> {
+    return this.authorsService.deleteAuthor(id);
   }
 }
