@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository, DataSource } from 'typeorm';
 import { Book } from './book.entity';
 import { AddBookDto } from './dto/add-book.dto';
@@ -11,6 +15,19 @@ export class BoooksRepository extends Repository<Book> {
     private authorsHelperRepository: AuthorsHelperRepository,
   ) {
     super(Book, dataSource.createEntityManager());
+  }
+
+  async getBookById(id: string): Promise<Book> {
+    let book;
+
+    try {
+      book = this.findOneBy({ id });
+    } catch {
+      throw new BadRequestException();
+    }
+
+    if (!book) throw new NotFoundException(`Book with id ${id} not found`);
+    return book;
   }
 
   async getAllBooks(): Promise<Book[]> {
@@ -39,18 +56,11 @@ export class BoooksRepository extends Repository<Book> {
     const author =
       (await this.authorsHelperRepository.findOneBy({ id: authorId })) || null;
 
-    //const toSave = { copyright, title, languages, subjects, year, author };
+    const toSave = { copyright, title, languages, subjects, year, author };
     let toReturn: Book;
 
     try {
-      toReturn = await this.save({
-        copyright,
-        title,
-        languages,
-        subjects,
-        year,
-        author,
-      });
+      toReturn = await this.save(toSave);
     } catch {
       throw new BadRequestException('Cannot save book');
     }

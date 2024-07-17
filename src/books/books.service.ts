@@ -7,6 +7,10 @@ import { Book } from './book.entity';
 export class BooksService {
   constructor(private boooksRepository: BoooksRepository) {}
 
+  getBookById(id: string): Promise<Book> {
+    return this.boooksRepository.getBookById(id);
+  }
+
   getAllBooks(): Promise<Book[]> {
     return this.boooksRepository.getAllBooks();
   }
