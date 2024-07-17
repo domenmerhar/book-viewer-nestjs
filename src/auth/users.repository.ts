@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Repository, DataSource } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,5 +20,15 @@ export class UsersRepository extends Repository<User> {
       username,
       password: hashedPassword,
     });
+  }
+
+  async signin(createUserDto: CreateUserDto): Promise<User> {
+    const { username, password } = createUserDto;
+
+    const user = await this.findOneBy({ username });
+    if (!user && !bcrypt.compare(user.password, password))
+      throw new BadRequestException(`User does not exist`);
+
+    return user;
   }
 }

@@ -10,4 +10,8 @@ export class AuthService {
   signup(createUserDto: CreateUserDto): Promise<User> {
     return this.usersRepository.signup(createUserDto);
   }
+
+  signin(createUserDto: CreateUserDto): Promise<User> {
+    return this.usersRepository.signin(createUserDto);
+  }
 }
