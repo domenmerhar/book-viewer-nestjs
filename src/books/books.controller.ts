@@ -36,8 +36,18 @@ export class BooksController {
     return id;
   }
 
+  @Patch('/:id/author')
+  updateAuthor(): void {
+    return null;
+  }
+
   @Delete('/:id')
   deleteBook(@Param('id') id: string): void {
     return this.booksService.deleteBookById(id);
+  }
+
+  @Delete('/:id/author')
+  deleteBookAuthor(): void {
+    return null;
   }
 }
