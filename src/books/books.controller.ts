@@ -8,6 +8,8 @@ import {
   Post,
 } from '@nestjs/common';
 import { BooksService } from './books.service';
+import { AddBookDto } from './dto/add-book.dto';
+import { Book } from './book.entity';
 
 @Controller('books')
 export class BooksController {
@@ -25,8 +27,8 @@ export class BooksController {
   }
 
   @Post()
-  addBook(@Body('name') name: string): string {
-    return name;
+  addBook(@Body() addBookDto: AddBookDto): Promise<Book> {
+    return this.booksService.addBook(addBookDto);
   }
 
   @Patch('/:id')
