@@ -6,7 +6,7 @@ export class Author {
   id: string;
 
   @Column()
-  author: string;
+  name: string;
 
   @Column()
   birthYear: number | null;
