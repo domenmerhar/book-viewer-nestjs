@@ -3,11 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BooksController } from './books/books.controller';
 import { BooksService } from './books/books.service';
-import { AuthorsController } from './authors/authors.controller';
-import { AuthorsService } from './authors/authors.service';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthorsModule } from './authors/authors.module';
 
 @Module({
   imports: [
@@ -21,13 +20,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    AuthorsModule,
   ],
-  controllers: [
-    AppController,
-    BooksController,
-    AuthorsController,
-    AuthController,
-  ],
-  providers: [AppService, BooksService, AuthorsService, AuthService],
+  controllers: [AppController, BooksController, AuthController],
+  providers: [AppService, BooksService, AuthService],
 })
 export class AppModule {}
