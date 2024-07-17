@@ -9,6 +9,12 @@ export class BoooksRepository extends Repository<Book> {
     super(Book, dataSource.createEntityManager());
   }
 
+  async getAllBooks(): Promise<Book[]> {
+    const query = this.createQueryBuilder('books');
+
+    return query.getMany();
+  }
+
   async addBook(addBookDto: AddBookDto): Promise<Book> {
     const {
       copyright,
@@ -17,8 +23,12 @@ export class BoooksRepository extends Repository<Book> {
       title,
     } = addBookDto;
 
-    const languages: string[] = languagesRaw.split(',');
-    const subjects: string[] = subjectsRaw.split(',');
+    const languages: string[] = languagesRaw
+      .split(',')
+      .map((language: string) => language.trim());
+    const subjects: string[] = subjectsRaw
+      .split(',')
+      .map((subject: string) => subject.trim());
 
     const toSave = { copyright, title, languages, subjects };
     let toReturn: Book;

@@ -17,8 +17,8 @@ export class BooksController {
 
   //TODO add filters
   @Get()
-  getAllBooks(): string {
-    return 'All books';
+  getAllBooks(): Promise<Book[]> {
+    return this.booksService.getAllBooks();
   }
 
   @Get('/:id')
