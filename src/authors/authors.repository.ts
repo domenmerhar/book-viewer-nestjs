@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { Author } from './author.entity';
 import { AuthorDto } from './dto/author.dto';
@@ -19,10 +19,19 @@ export class AuthorsRepository extends Repository<Author> {
   }
 
   async updateAuthorName(name: string, id: string): Promise<Author> {
-    const author = await this.findOneBy({ id });
+    let author: Author;
+
+    try {
+      author = await this.findOneBy({ id });
+    } catch {
+      throw new NotFoundException(`Author with id ${id} not found`);
+    }
+
     author.name = name;
 
     await this.save(author);
     return author;
   }
+
+  //async deleteAuthor(id: string): string;
 }
