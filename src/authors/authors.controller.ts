@@ -6,18 +6,22 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { AuthorsService } from './authors.service';
 import { AuthorDto } from './dto/author.dto';
 import { Author } from './author.entity';
+import { GetAuthorsFilter } from './dto/get-authors-filter.dto';
 
 @Controller('authors')
 export class AuthorsController {
   constructor(private authorsService: AuthorsService) {}
 
   @Get()
-  getAllAuthors(): string {
-    return 'All books';
+  getAllAuthors(
+    @Query() getAuthorsFilter: GetAuthorsFilter,
+  ): Promise<Author[]> {
+    return this.authorsService.getAllAuthors(getAuthorsFilter);
   }
 
   @Get('/:id')

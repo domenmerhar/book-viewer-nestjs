@@ -6,11 +6,35 @@ import {
 import { DataSource, Repository } from 'typeorm';
 import { Author } from './author.entity';
 import { AuthorDto } from './dto/author.dto';
+import { GetAuthorsFilter } from './dto/get-authors-filter.dto';
 
 @Injectable()
 export class AuthorsRepository extends Repository<Author> {
   constructor(private dataSource: DataSource) {
     super(Author, dataSource.createEntityManager());
+  }
+
+  async getAllAuthors(getAuthorsFilter: GetAuthorsFilter): Promise<Author[]> {
+    const { search, year, sort } = getAuthorsFilter;
+
+    const query = this.createQueryBuilder('author');
+
+    if (search)
+      query.andWhere('LOWER(author.name) LIKE :search', {
+        search: `%${search}%`,
+      });
+
+    if (year)
+      query.andWhere('author.birthYear < :year AND :year < author.deathYear', {
+        year,
+      });
+
+    if (sort)
+      query.orderBy('author.birthYear', sort.toUpperCase() as 'ASC' | 'DESC');
+
+    const authors = await query.getMany();
+
+    return authors;
   }
 
   async getAuthorById(id: string): Promise<Author> {
