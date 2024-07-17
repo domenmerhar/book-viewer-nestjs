@@ -21,8 +21,8 @@ export class AuthorsController {
   }
 
   @Get('/:id')
-  getAuthorById(@Param('id') id: string): string {
-    return id;
+  getAuthorById(@Param('id') id: string): Promise<Author> {
+    return this.authorsService.getAuthorById(id);
   }
 
   @Post()

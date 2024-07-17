@@ -7,6 +7,10 @@ import { Author } from './author.entity';
 export class AuthorsService {
   constructor(private authorsRepository: AuthorsRepository) {}
 
+  getAuthorById(id: string): Promise<Author> {
+    return this.authorsRepository.getAuthorById(id);
+  }
+
   createAuthor(authorDto: AuthorDto): Promise<Author> {
     return this.authorsRepository.createAuthor(authorDto);
   }

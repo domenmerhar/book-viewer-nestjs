@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { Author } from './author.entity';
 import { AuthorDto } from './dto/author.dto';
@@ -7,6 +11,20 @@ import { AuthorDto } from './dto/author.dto';
 export class AuthorsRepository extends Repository<Author> {
   constructor(private dataSource: DataSource) {
     super(Author, dataSource.createEntityManager());
+  }
+
+  async getAuthorById(id: string): Promise<Author> {
+    let author;
+
+    try {
+      author = await this.findOneBy({ id });
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+
+    if (!author) throw new NotFoundException(`Author with id ${id} not found`);
+
+    return author;
   }
 
   async createAuthor(authorDto: AuthorDto): Promise<Author> {
