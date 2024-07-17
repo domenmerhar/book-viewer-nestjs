@@ -1,5 +1,5 @@
 export class AuthorDto {
-  author: string;
+  name: string;
   birthYear: number;
   deathYear: number;
 }
