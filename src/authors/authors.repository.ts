@@ -20,12 +20,9 @@ export class AuthorsRepository extends Repository<Author> {
 
   async updateAuthorName(name: string, id: string): Promise<Author> {
     const author = await this.findOneBy({ id });
-    console.log(author);
-
     author.name = name;
 
     await this.save(author);
-
     return author;
   }
 }
