@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Author } from 'src/authors/author.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Book {
@@ -8,7 +9,8 @@ export class Book {
   @Column()
   title: string;
 
-  //TODO: author
+  @ManyToOne(() => Author, (author) => author.books)
+  author: Author;
 
   @Column('varchar', { array: true })
   subjects: string[];
@@ -18,4 +20,7 @@ export class Book {
 
   @Column()
   copyright: boolean;
+
+  @Column()
+  year: number;
 }
