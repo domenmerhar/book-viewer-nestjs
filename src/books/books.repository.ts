@@ -67,4 +67,8 @@ export class BoooksRepository extends Repository<Book> {
 
     return toReturn;
   }
+
+  deleteBookById(id: string): void {
+    this.delete({ id });
+  }
 }

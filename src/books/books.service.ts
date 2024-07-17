@@ -18,4 +18,8 @@ export class BooksService {
   addBook(addBookDto: AddBookDto): Promise<Book> {
     return this.boooksRepository.addBook(addBookDto);
   }
+
+  deleteBookById(id: string): void {
+    this.boooksRepository.deleteBookById(id);
+  }
 }
