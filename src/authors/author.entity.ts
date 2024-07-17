@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Task {
+export class Author {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -9,8 +9,8 @@ export class Task {
   author: string;
 
   @Column()
-  birthYear: number;
+  birthYear: number | null;
 
   @Column()
-  deathYear: number;
+  deathYear: number | null;
 }
