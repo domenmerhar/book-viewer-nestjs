@@ -17,5 +17,6 @@ export class GetAuthorsFilter {
   year: number;
 
   @Validate(IsSortString)
+  @IsOptional()
   sort: SortEnum;
 }
