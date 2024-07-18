@@ -28,5 +28,7 @@ export class AddBookDto {
   copyright: boolean;
 
   @IsNumberString()
+  @IsNotEmpty()
+  @IsOptional()
   year: number;
 }
